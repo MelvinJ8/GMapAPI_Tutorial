@@ -37,8 +37,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private final int MY_PERMISSIONS_REQUEST_LOCATION = 1;
-    private Polygon polygon;
-    private PolygonOptions rectOptions;
+    private Polygon polygon1, polygon2, polygon3;
+    private PolygonOptions rectOptions1, rectOptions2, rectOptions3;
     Boolean crossed = false;
     private LocationRequest mLocationRequest;
     private GoogleApiClient mGoogleApiClient;
@@ -88,17 +88,36 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(kamloops, 17));
 
         // Add a polygon
-        rectOptions = new PolygonOptions()
-                .add(   new LatLng(50.67065191, -120.3619401),
-                        new LatLng(50.67065191, -120.3627411),
-                        new LatLng(50.67027317, -120.3627411),
-                        new LatLng(50.67027317, -120.3619401));
-        if (crossed == true) {
-            rectOptions.strokeColor(-65536);
-            rectOptions.fillColor(Color.argb(20, 255, 80, 255));
-        }
+        rectOptions1 = new PolygonOptions()
+                .add(   new LatLng(50.670783, -120.361910),
+                        new LatLng(50.670790, -120.362407),
+                        new LatLng(50.670591, -120.362446),
+                        new LatLng(50.670593, -120.361965));
+            rectOptions1.strokeColor(-65536);
+            rectOptions1.fillColor(Color.argb(20, 255, 80, 255));
+
+        rectOptions2 = new PolygonOptions()
+                .add(   new LatLng(50.670742, -120.361825),
+                        new LatLng(50.670761, -120.361394),
+                        new LatLng(50.670525, -120.361376),
+                        new LatLng(50.670500, -120.361838));
+
+        rectOptions2.strokeColor(-65536);
+        rectOptions2.fillColor(Color.argb(20, 255, 80, 255));
+
+
+        rectOptions3 = new PolygonOptions()
+                .add(   new LatLng(50.670427, -120.362548),
+                        new LatLng(50.670422, -120.362088),
+                        new LatLng(50.670246, -120.362103),
+                        new LatLng(50.670234, -120.362494));
+
+        rectOptions3.strokeColor(-65536);
+        rectOptions3.fillColor(Color.argb(20, 255, 80, 255));
         // Get back the mutable Polygon
-        polygon = mMap.addPolygon(rectOptions);
+        polygon1 = mMap.addPolygon(rectOptions1);
+        polygon2 = mMap.addPolygon(rectOptions2);
+        polygon3 = mMap.addPolygon(rectOptions3);
 
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // Should we show an explanation?
@@ -228,9 +247,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(1000);
+        mLocationRequest.setInterval(500);
         mLocationRequest.setFastestInterval(1000);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+        //uses more power than PRIORITY_BALANCED_POWER_ACCURACY
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         if (ContextCompat.checkSelfPermission(this,
                 android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
@@ -255,9 +275,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             //mLastLocation = location;
             lattitude = location.getLatitude();
             longitude = location.getLongitude();
-            if (lattitude <= 50.67065191 && lattitude >= 50.67027317 && longitude <= -120.3619401 && longitude >= -120.3627411){
-                Toast.makeText(getBaseContext(),"Current Location: Lat = " + lattitude + ", and longitude = " + longitude, Toast.LENGTH_SHORT).show();
-            }
+//            if (lattitude <= 50.67065191 && lattitude >= 50.67027317 && longitude <= -120.3619401 && longitude >= -120.3627411){
+//                Toast.makeText(getBaseContext(),"Current Location: Lat = " + lattitude + ", and longitude = " + longitude, Toast.LENGTH_SHORT).show();
+//            }
         }
     }
 }
